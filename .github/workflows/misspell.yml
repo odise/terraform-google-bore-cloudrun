@@ -1,8 +1,5 @@
----
 name: misspell
-on:
-  - push
-
+on: [push]
 jobs:
   misspell:
     runs-on: Ubuntu-20.04
