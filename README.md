@@ -1,5 +1,7 @@
 # terraform-google-bore-cloudrun
+This module deploys the [boring-registry](https://github.com/TierMobility/boring-registry) as a Google Cloud Run service.
 
+# Usage
 <!--- BEGIN_TF_DOCS ---> 
 ## Requirements
 
