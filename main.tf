@@ -96,6 +96,10 @@ resource "google_cloud_run_service" "default" {
           name  = "BORING_REGISTRY_GCS_SIGNEDURL_EXPIRY"
           value = var.gcs_signedurl_expiry
         }
+        env {
+          name  = "BORING_REGISTRY_API_KEY"
+          value = join(",", var.api_keys)
+        }
         ports {
           container_port = var.container_port
         }

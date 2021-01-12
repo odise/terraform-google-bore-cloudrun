@@ -67,6 +67,11 @@ variable "enable_debug_mode" {
   type    = bool
   default = false
 }
+variable "api_keys" {
+  description = "List of static API keys to protect the server with."
+  default     = []
+  type        = list(string)
+}
 variable "container_port" {
   default = 5601
   type    = number
