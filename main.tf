@@ -3,7 +3,7 @@ locals {
   dns_record_name = var.dns_record_name == "" ? "" : "${var.dns_record_name}."
 }
 resource "random_id" "suffix" {
-  byte_length = 4
+  byte_length = 2
 }
 
 module "upload_bucket" {
