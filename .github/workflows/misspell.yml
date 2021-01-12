@@ -1,0 +1,17 @@
+---
+name: misspell
+on:
+  - push
+
+jobs:
+  misspell:
+    runs-on: Ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: misspell
+        uses: reviewdog/action-misspell@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          locale: "US"
+          reporter: github-check
+          level: error

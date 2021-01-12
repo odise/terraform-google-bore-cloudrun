@@ -2,33 +2,49 @@ name: terraform-validate
 on: [push]
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    name: 'Terraform'
+    runs-on: Ubuntu-20.04
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
+      - name: 'Checkout'
+        uses: actions/checkout@master
+      - name: 'Terraform Init'
+        uses: hashicorp/terraform-github-actions@master
         with:
-          fetch-depth: 100
-
-      - uses: hashicorp/setup-terraform@v1
+          tf_actions_version: 0.13.5
+          tf_actions_subcommand: 'init'
+          tf_actions_working_dir: '.'
+          tf_actions_comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 'Terraform Validate'
+        uses: hashicorp/terraform-github-actions@master
         with:
-          terraform_version: "~> 0.13.0"
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check -recursive -diff=true .
-
-      - name: Setup Google Cloud Platform
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          service_account_key: ${{ secrets.GCP_REGISTRY_SA_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT }}
-          export_default_credentials: true
-
+          tf_actions_version: 0.13.5
+          tf_actions_subcommand: 'validate'
+          tf_actions_working_dir: '.'
+          tf_actions_comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_REGION: eu-central-1
       - name: tflint
         uses: reviewdog/action-tflint@master
         with:
           github_token: ${{ secrets.github_token }}
-#          working_directory: "testdata" # Optional. Change working directory
-          reporter: github-pr-review # Optional. Change reporter
           fail_on_error: "true" # Optional. Fail action if errors are found
           filter_mode: "nofilter" # Optional. Check all files, not just the diff
-          flags: "--no-color --module --loglevel=info --only=terraform_deprecated_interpolation --only=terraform_deprecated_index --only=terraform_unused_declarations --only=terraform_comment_syntax --only=terraform_typed_variables --only=terraform_naming_convention --only=terraform_required_version --only=terraform_required_providers --only=terraform_standard_module_structure --only=terraform_workspace_remote"
+          flags: "--module" # Optional. Add custom tflint flags
+  docs:
+    runs-on: Ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Render terraform docs inside the USAGE.md and push changes back to PR branch
+        uses: Dirrk/terraform-docs@v1.0.8
+        with:
+          tf_docs_working_dir: .
+          tf_docs_output_file: README.md
+          tf_docs_output_method: inject
+          tf_docs_git_push: 'true'
+          tf_docs_git_commit_message: 'chore: terraform-docs automated action'
