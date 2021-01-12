@@ -104,7 +104,7 @@ resource "google_cloud_run_service" "default" {
   }
 }
 
-resource "google_cloud_run_service_iam_member" "public-access" {
+resource "google_cloud_run_service_iam_member" "public_access" {
   location = google_cloud_run_service.default.location
   project  = google_cloud_run_service.default.project
   service  = google_cloud_run_service.default.name

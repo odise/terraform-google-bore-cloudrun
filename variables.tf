@@ -5,6 +5,7 @@ variable "project_id" {
 variable "region" {
   description = "Location for load balancer and Cloud Run resources"
   default     = "europe-west3"
+  type        = string
 }
 
 variable "ssl" {
@@ -42,6 +43,7 @@ variable "name_suffix" {
 variable "lb_name" {
   description = "Name for load balancer and associated resources"
   default     = "bore-lb"
+  type        = string
 }
 
 variable "container_image" {
