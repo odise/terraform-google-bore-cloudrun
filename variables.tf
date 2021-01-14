@@ -13,6 +13,11 @@ variable "ssl" {
   type        = bool
   default     = true
 }
+variable "additional_managed_ssl_certificate_domains" {
+  type        = list(string)
+  default     = []
+  description = "Additional DNS records to be included in the certificate chain."
+}
 variable "dns_record_name" {
   description = "Record name of the `domain_name` parameter pointing at the load balancer on (e.g. `registry`). Used if `ssl` is `true`."
   type        = string
