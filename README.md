@@ -24,6 +24,7 @@ This module deploys the [boring-registry](https://github.com/TierMobility/boring
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| additional\_managed\_ssl\_certificate\_domains | Additional DNS records to be included in the certificate chain. | `list(string)` | `[]` | no |
 | api\_keys | List of static API keys to protect the server with. | `list(string)` | `[]` | no |
 | cloud\_run\_service\_name | n/a | `string` | `"boring-registry"` | no |
 | container\_image | n/a | `string` | n/a | yes |
